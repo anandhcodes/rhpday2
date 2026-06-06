@@ -1,0 +1,69 @@
+#include<stdio.h>
+void find(int ar[],int *fm,int *sm,int col){
+    if(ar[0]>ar[1]){
+        *fm=ar[0];*sm=ar[1];
+    }else{
+        *fm=ar[1];*sm=ar[0];
+    }
+       for(int j=2;j<col;j++){
+          if(ar[j]>*fm){
+             *sm=*fm;
+             *fm=ar[j];
+            }else if(ar[j]>*sm){
+             *sm=ar[j];
+            }
+        }
+}
+int main(){
+    int r,c;
+    printf("Enter row size of the matrix:");
+    scanf("%d",&r);
+    printf("Enter column size of the matrix:");
+    scanf("%d",&c);
+    int arr[r][c];
+    for(int i=0;i<r;i++){
+        for(int j=0;j<c;j++){
+           printf("Enter the elment [%d] [%d] ",i,j);
+            scanf("%d",&arr[i][j]);
+        }printf("\n");
+    }
+    
+    printf("The maximum sum is:");
+    int ans[r][c];
+    int fm=0,sm=0;
+    for(int i=0;i<r;i++){
+        if(i>0)
+            find(ans[i-1],&fm,&sm,c);
+        for(int j=0;j<c;j++){
+            if(i==0){
+                ans[i][j]=arr[i][j];
+                if(arr[i][j]>fm){
+             sm=fm;
+             fm=arr[i][j];
+            }else if(arr[i][j]>sm){
+             sm=arr[i][j];
+            }
+            }else{
+                    if(ans[i-1][j]==fm){
+                        ans[i][j]=arr[i][j]+sm;
+                    }else{
+                        ans[i][j]=arr[i][j]+fm;
+                    }
+                
+            }
+            
+        }
+    }
+    for(int i=0;i<r;i++){
+        for(int j=0;j<c;j++){
+            printf("%d ",ans[i][j]);
+        }printf("\n");
+    }
+    int max=arr[r-1][0];
+    for(int k=0;k<c;k++){
+        if(ans[r-1][k]>max){
+            max=ans[r-1][k];
+        }
+    }
+    printf("The maximum value:%d",max);
+}
