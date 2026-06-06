@@ -1,0 +1,54 @@
+#include<stdio.h>
+
+int main(){
+    int r, c;
+    printf("Enter row size: ");
+    scanf("%d", &r);
+    printf("Enter column size: ");
+    scanf("%d", &c);
+    int arr[r][c];
+    int ans[r][c];
+    for(int i=0; i<r; i++){
+
+        for(int j=0; j<c; j++){
+
+            printf("Enter element [%d][%d]: ", i, j);
+            scanf("%d", &arr[i][j]);
+        }
+    }
+    for(int i=0; i<r; i++){
+        ans[i][0] = arr[i][0];
+    }
+    for(int j=1; j<c; j++){
+        for(int i=0; i<r; i++){
+            int max = -1;
+            for(int k=0; k<r; k++){
+                if(k == i){
+                    continue;
+                }
+                if(ans[k][j-1] > max){
+                    max = ans[k][j-1];
+                }
+            }
+            ans[i][j] = arr[i][j] + max;
+        }
+    }
+    printf("\nDP Matrix:\n");
+    for(int i=0; i<r; i++){
+        for(int j=0; j<c; j++){
+            printf("%d ", ans[i][j]);
+        }
+        printf("\n");
+    }
+    int finalMax = ans[0][c-1];
+
+    for(int i=1; i<r; i++){
+
+        if(ans[i][c-1] > finalMax){
+            finalMax = ans[i][c-1];
+        }
+    }
+    printf("\nMaximum value: %d", finalMax);
+
+    return 0;
+}
